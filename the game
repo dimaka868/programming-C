@@ -1,0 +1,239 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <math.h> 
+#include <time.h> 
+void clear_field (int N, int field1[][N], int field2[][N])	//заполнение данных полей
+{
+	for (int i=0; i<N; i++) 
+	{ 
+		for (int j=0; j<N; j++) 
+		{ 
+			field1[i][j] = 0;	//0 - пустое поле, 1 - мина
+			field2[i][j] = 254; // 254 - квадратик по Ascii	
+		} 
+	} 
+} 
+void mines(int n, int N, int field1[][N]) //генерация мин 
+{ 
+	int i; 
+	int j;  
+	srand(time(NULL)); 
+	for (i=0; i<N; i++)
+	{
+		for (j=0; j<N; j++)
+			field1[i][j] = 0;	
+	}
+		while (n!=0)
+	{	
+		while (field1[i][j]!=0)
+		{
+			i = rand()%N;
+			j = rand()%N;
+		}
+			field1[i][j]=1;
+			n--;
+	}
+} 
+
+
+
+
+void show_field(int end, int N, int field1[][N], int field2[][N]) //видимое поле 
+{ 
+	printf ("  "); 
+	for (int i=0; i<N; i++) 
+	{ 
+		if (i<11) 
+		printf (" %d ", i); //горизонт
+		else 
+		printf ("%d ", i);
+	} 
+	printf ("\n");
+	for (int i=0; i<N; i++) 
+	{ 
+		printf ("---"); //горизонт 
+	} 
+	printf ("\n");
+	for (int i=0; i<N; i++) 
+	{ 
+		printf ("%c |", i+65); //вертикаль 
+		for (int j=0; j<N; j++) 
+		{
+			if (end==0)
+			{ 
+				if (field2[i][j]!=254) 
+				printf ("%d  ", field2[i][j]);
+				else 
+				printf ("%c  ", field2[i][j]); //field2[i][j] - игр. поле. field1[i][j] - мин. поле 
+			/*Нужно лишь заменить переменную field2[i][j] на field1[i][j] в 67 строчке, чтобы на экран вывелись мины*/
+			} 
+			else
+			printf("%d  ", field1[i][j]);
+		} 
+		printf ("\n  |\n"); 
+	} 
+
+} 
+
+int shot(int x, int y, int N, int field1[][N], int field2[][N])	//проверка куда пользователь попал
+{
+	if (x>N-1||y>N-1||x<0||y<0)
+	return 1;
+	if (field1[x][y] == 1)	
+	return 0; 
+	int cnt = 0; 
+	for (int i=x-1; i<=x+1 && i<N; i++) 
+	{ 
+		for (int j=y-1; j<=y+1 && j<N; j++) 
+		{ 
+			if (i>=0 && j>=0) 
+			cnt+=field1[i][j]; 
+		} 
+	}
+	field2[x][y] = cnt;
+	return 1; 
+}
+
+main() 
+{ 
+	int n, N; 
+	printf ("Введите размерность поля:");
+	scanf ("%d", &N);
+	while (N>26)
+	{ 
+		printf ("Неправильный ввод! Введите размерность не больше 26:");	
+		scanf ("%d", &N);
+	}
+	printf ("Введите количество мин:");
+	scanf ("%d", &n);
+	int field1[N][N];
+	int field2[N][N];
+	clear_field(N, field1, field2); 
+	mines(n, N, field1); 
+	int x; 
+	int y; 
+	int count = 0;
+	char z; 
+	do 
+	{ 
+		show_field(0, N, field1, field2); 
+		printf ("\n Введите букву и число:"); 
+		scanf ("%c%d", &z, &y); 
+	switch(z) 
+	{ 
+		case 'A': 
+		x=0;
+		count++; 
+		break; 
+		case 'B': 
+		x=1;
+		count++; 
+		break; 
+		case 'C': 
+		x=2;
+		count++; 
+		break; 
+		case 'D': 
+		x=3;
+		count++; 
+		break; 
+		case 'E': 
+		x=4;
+		count++; 
+		break; 
+		case 'F': 
+		x=5;
+		count++; 
+		break; 
+		case 'G': 
+		x=6;
+		count++; 
+		break; 
+		case 'H': 
+		x=7;
+		count++; 
+		break; 
+		case 'I': 
+		x=8;
+		count++; 
+		break; 
+		case 'J': 
+		x=9;
+		count++; 
+		break; 
+		case 'K': 
+		x=10;
+		count++; 
+		break; 
+		case 'L': 
+		x=11;
+		count++; 
+		break; 
+		case 'M': 
+		x=12;
+		count++; 
+		break; 
+		case 'N': 
+		x=13;
+		count++; 
+		break; 
+		case 'O': 
+		x=14;
+		count++; 
+		break; 
+		case 'P': 
+		x=15;
+		count++; 
+		break; 
+		case 'Q': 
+		x=16;
+		count++; 
+		break; 
+		case 'R': 
+		x=17;
+		count++; 
+		break; 
+		case 'S': 
+		x=18;
+		count++; 
+		break; 
+		case 'T': 
+		x=19;
+		count++; 
+		break; 
+		case 'U': 
+		x=20;
+		count++; 
+		break; 
+		case 'V': 
+		x=21;
+		count++; 
+		break; 
+		case 'W': 
+		x=22;
+		count++; 
+		break; 
+		case 'X': 
+		x=23;
+		count++; 
+		break; 
+		case 'Y': 
+		x=24;
+		count++; 
+		break; 
+		case 'Z': 
+		x=25;
+		count++; 
+		break; 
+		} 
+		system ("cls"); 
+	} 
+	while (shot (x, y, N, field1, field2) && count!=N*N-n); 
+	show_field(1, N, field1, field2); 
+	if (shot (x, y, N, field1, field2) && count==N*N-n) 
+	printf ("Win!!!\n");
+	else 
+	printf ("Game over! Try again\n"); 
+	system ("pause"); 
+	return 0; 
+}
